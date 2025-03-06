@@ -1,0 +1,47 @@
+# First, install pytube if you haven't already
+# Run this cell once in Jupyter Notebook
+!pip install pytube
+
+# Import the necessary library
+from pytube import YouTube
+
+# Function to download YouTube video
+def download_youtube_video(url, output_path=None):
+    try:
+        # Create YouTube object with the video URL
+        yt = YouTube(url)
+        
+        # Print video details
+        print(f"Title: {yt.title}")
+        print(f"Length: {yt.length} seconds")
+        print(f"Author: {yt.author}")
+        
+        # Get the highest resolution stream available
+        # You can modify this to get specific resolution using .filter()
+        video_stream = yt.streams.get_highest_resolution()
+        
+        # If no output path specified, it will download to current directory
+        if output_path:
+            print(f"Downloading to: {output_path}")
+            video_stream.download(output_path=output_path)
+        else:
+            print("Downloading to current directory...")
+            video_stream.download()
+            
+        print("Download completed successfully!")
+        
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+
+# Example usage
+# Replace the URL with the YouTube video you want to download
+video_url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"  # Example: Rick Astley's Never Gonna Give You Up
+
+# Optional: Specify a download path (remove or modify as needed)
+download_path = "C:/Users/YourUsername/Videos"  # Windows example
+# download_path = "/home/user/videos"  # Linux/Mac example
+
+# Call the function
+download_youtube_video(video_url, download_path)
+# If you want to download to current directory, just use:
+# download_youtube_video(video_url)
